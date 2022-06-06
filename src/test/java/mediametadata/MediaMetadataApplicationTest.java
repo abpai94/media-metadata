@@ -3,6 +3,7 @@ package mediametadata;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mediametadata.controller.MediaRepository;
+import mediametadata.model.Media;
 import mediametadata.model.MediaType;
 import mediametadata.model.Movie;
 import mediametadata.model.Series;
@@ -43,6 +44,12 @@ public class MediaMetadataApplicationTest {
 
     private String output = "";
 
+    /**
+     * Setting up {@link Movie} and {@link Series} objects.
+     *
+     * @param mediaType MOVIES, SERIES or none.
+     * @throws JsonProcessingException
+     */
     public void setUp(MediaType mediaType) throws JsonProcessingException {
         switch (mediaType) {
             case MOVIE -> {
@@ -71,13 +78,15 @@ public class MediaMetadataApplicationTest {
                                 new ArrayList<>(Arrays.asList("Comics")),
                                 30));
             }
-            default -> {
-                input = "";
-                output = "";
-            }
         }
     }
 
+    /**
+     * Removing {@link Movie} or {@link Series} object from repository.
+     *
+     * @param mediaType MOVIES, SERIES or ALL
+     * @throws Exception
+     */
     public void cleanUp(MediaType mediaType) throws Exception {
         switch (mediaType) {
             case MOVIE -> {
@@ -93,6 +102,11 @@ public class MediaMetadataApplicationTest {
         }
     }
 
+    /**
+     * Gets all the {@link Media} objects in repository.
+     *
+     * @throws Exception
+     */
     @Test
     public void testGetAll() throws Exception {
         setUp(MediaType.MOVIE);
@@ -112,6 +126,11 @@ public class MediaMetadataApplicationTest {
         cleanUp(MediaType.ALL);
     }
 
+    /**
+     * Gets {@link Media} object by title.
+     *
+     * @throws Exception
+     */
     @Test
     public void testGetByTitle() throws Exception {
         setUp(MediaType.MOVIE);
@@ -125,6 +144,11 @@ public class MediaMetadataApplicationTest {
         cleanUp(MediaType.MOVIE);
     }
 
+    /**
+     * Get {@link Media} object by Id.
+     *
+     * @throws Exception
+     */
     @Test
     public void testGetById() throws Exception {
         setUp(MediaType.MOVIE);
@@ -138,6 +162,11 @@ public class MediaMetadataApplicationTest {
         cleanUp(MediaType.MOVIE);
     }
 
+    /**
+     * Get all {@link Movie} objects.
+     *
+     * @throws Exception
+     */
     @Test
     public void testGetMovie() throws Exception {
         setUp(MediaType.MOVIE);
@@ -151,6 +180,11 @@ public class MediaMetadataApplicationTest {
         cleanUp(MediaType.MOVIE);
     }
 
+    /**
+     * Get all {@link Series} objects.
+     *
+     * @throws Exception
+     */
     @Test
     public void testGetSeries() throws Exception {
         setUp(MediaType.SERIES);
@@ -164,6 +198,11 @@ public class MediaMetadataApplicationTest {
         cleanUp(MediaType.SERIES);
     }
 
+    /**
+     * POST {@link Movie} JSON data to store in repository.
+     *
+     * @throws Exception
+     */
     @Test
     public void testPostMovie() throws Exception {
         setUp(MediaType.MOVIE);
@@ -175,6 +214,11 @@ public class MediaMetadataApplicationTest {
         cleanUp(MediaType.MOVIE);
     }
 
+    /**
+     * POST {@link Series} JSON data to store in repository.
+     *
+     * @throws Exception
+     */
     @Test
     public void testPostSeries() throws Exception {
         setUp(MediaType.SERIES);
@@ -186,6 +230,11 @@ public class MediaMetadataApplicationTest {
         cleanUp(MediaType.SERIES);
     }
 
+    /**
+     * Get {@link Media} objects with commons labels.
+     *
+     * @throws Exception
+     */
     @Test
     public void testFindCommon() throws Exception {
         setUp(MediaType.MOVIE);
@@ -204,8 +253,7 @@ public class MediaMetadataApplicationTest {
                 .andDo(print())
                 .andReturn();
         Assert.assertEquals(combinedOutput, mvcResult.getResponse().getContentAsString());
-        cleanUp(MediaType.MOVIE);
-        cleanUp(MediaType.SERIES);
+        cleanUp(MediaType.ALL);
     }
 
 }
