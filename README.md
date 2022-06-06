@@ -1,6 +1,53 @@
 # Media Metadata
 Coding task to create a REST API to handle Media JSON data for Movies and TV Series.
 
+## REST API operations
+
+### Add movie data
+    POST /movie
+
+    {
+    "id": "value",
+    "title": "value",
+    "labels": [
+    "value"
+    ],
+    "director": "value",
+    "releaseDate": value
+    }
+
+### Add series data
+    POST /series
+
+    {
+    "id": "value",
+    "title": "value",
+    "labels": [
+    "value"
+    ],
+    "numberOfEpisodes": value
+    }
+
+### Find all media data
+    GET /media
+
+### Find all movies
+    GET /media/movies
+
+### Find all series
+    GET /media/series
+
+### Find all related media by label genre
+    GET /media/related/{id}
+
+### Find all media data based on UUID
+    GET /media/{id}
+
+### Find media using character match of title
+    GET /media?title={value}
+
+### Delete media using UUID
+    DELETE /media/{id}
 
 ## Previous commits in [abpai94/coding-tests](https://github.com/abpai94/coding-tests)
 * [Commit 2dbeeb3](https://github.com/abpai94/coding-tests/commit/241a2cc9f1559ccd6ea19c4f97c9e4ff694c528) Started working on a new company technical challenge to create a REST API for VoD metadata which can use CRUD queries.
