@@ -15,7 +15,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Class that represents the repository, converting string to {@link Media},
@@ -33,26 +32,6 @@ public class MediaRepository {
      * Constructor adds a few movies and TV series to the repository to initialize the repository.
      */
     public MediaRepository() {
-//        mediaMetadata = Stream.of(
-//                        new Movie(UUID.randomUUID(),
-//                                "Spider-man",
-//                                new ArrayList<>(Arrays.asList("Sci-Fi")),
-//                                "Sam Ramy",
-//                                new Date()),
-//                        new Movie(UUID.randomUUID(),
-//                                "Indiana Jones",
-//                                new ArrayList<>(Arrays.asList("Adventure")),
-//                                "George Lucas",
-//                                new Date()),
-//                        new Series(UUID.randomUUID(),
-//                                "Game of Thrones",
-//                                new ArrayList<>(Arrays.asList("Fantasy")),
-//                                73),
-//                        new Series(UUID.randomUUID(),
-//                                "Breaking Bad",
-//                                new ArrayList<>(Arrays.asList("Drama", "Tragedy", "Crime")),
-//                                62))
-//                .collect(Collectors.toList());
     }
 
     /**
@@ -158,7 +137,8 @@ public class MediaRepository {
     public boolean deleteMedia(String id) {
         Media media = mediaMetadata.stream().filter(
                 x -> x.getId().equals(UUID.fromString(id))).findFirst().get();
-        return deletedMediaMetadata.add(media) && mediaMetadata.remove(media);
+        deletedMediaMetadata.add(media);
+        return mediaMetadata.remove(media);
     }
 
     /**

@@ -1,12 +1,11 @@
 package mediametadata.controller;
 
-import mediametadata.model.Movie;
-import mediametadata.model.Series;
 import mediametadata.model.Media;
 import mediametadata.model.MediaType;
+import mediametadata.model.Movie;
+import mediametadata.model.Series;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,13 +37,9 @@ public class MediaController {
      */
     @GetMapping("/media")
     List<Media> all(@RequestParam(required = false, value = "title") String title) {
-        List<Media> mediaList = new ArrayList<>();
-        if (title == null) {
-            mediaList = mediaRepository.findAll(MediaType.ALL);
-        } else {
-            mediaList = mediaRepository.findByCharacters(title);
-        }
-        return mediaList;
+        return title != null ?
+                mediaRepository.findByCharacters(title) :
+                mediaRepository.findAll(MediaType.ALL);
     }
 
     /**
@@ -63,7 +58,7 @@ public class MediaController {
      *
      * @return {@link List} of all {@link Movie}.
      */
-    @GetMapping("/movies")
+    @GetMapping("/media/movies")
     List<Media> allMovies() {
         return mediaRepository.findAll(MediaType.MOVIE);
     }
@@ -73,7 +68,7 @@ public class MediaController {
      *
      * @return {@link List} of all {@link Series}.
      */
-    @GetMapping("/series")
+    @GetMapping("/media/series")
     List<Media> allSeries() {
         return mediaRepository.findAll(MediaType.SERIES);
     }
@@ -93,7 +88,7 @@ public class MediaController {
      *
      * @return {@link List}.
      */
-    @GetMapping("/movies/deleted")
+    @GetMapping("/media/movie/deleted")
     List<Media> findDeletedMovies() {
         return mediaRepository.findDeleted(MediaType.MOVIE);
     }
@@ -103,7 +98,7 @@ public class MediaController {
      *
      * @return {@link List}.
      */
-    @GetMapping("/series/deleted")
+    @GetMapping("/media/series/deleted")
     List<Media> findDeletedSeries() {
         return mediaRepository.findDeleted(MediaType.SERIES);
     }
@@ -137,7 +132,7 @@ public class MediaController {
      * @return true if deleted from repository.
      */
     @DeleteMapping("/media/{id}")
-    boolean deleteVideo(@PathVariable String id) {
+    boolean deleteMedia(@PathVariable String id) {
         return mediaRepository.deleteMedia(id);
     }
 
