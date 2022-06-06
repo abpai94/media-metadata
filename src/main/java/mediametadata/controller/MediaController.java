@@ -110,7 +110,7 @@ public class MediaController {
      * @return {@link List} of {@link Media}.
      */
     @GetMapping("/media/related/{id}")
-    List<Media> findCommon(@PathVariable String id) {
+    List<Media> getCommon(@PathVariable String id) {
         return mediaRepository.findByLabel(id);
     }
 

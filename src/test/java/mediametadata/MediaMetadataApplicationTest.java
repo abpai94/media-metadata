@@ -30,7 +30,6 @@ import java.util.UUID;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -59,9 +58,6 @@ public class MediaMetadataApplicationTest {
                       RestDocumentationContextProvider restDocumentationContextProvider) throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(documentationConfiguration(restDocumentationContextProvider))
-                .alwaysDo(document("{method-name}",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())))
                 .build();
     }
 
@@ -109,13 +105,14 @@ public class MediaMetadataApplicationTest {
                 .contentType("application/json"));
         String combinedOutput = "[" + output + ",";
         setUp(MediaType.SERIES);
-        combinedOutput += output + "]";
         mockMvc.perform(post("/series")
                 .content(input)
                 .contentType("application/json"));
+        combinedOutput += output + "]";
         MvcResult mvcResult = mockMvc.perform(get("/media")
                         .contentType("application/json"))
                 .andDo(print())
+                .andDo(document("get-all"))
                 .andReturn();
         Assert.assertEquals(combinedOutput, mvcResult.getResponse().getContentAsString());
     }
@@ -133,7 +130,9 @@ public class MediaMetadataApplicationTest {
                 .contentType("application/json"));
         MvcResult mvcResult = mockMvc.perform(get("/media?title=Spiderman")
                         .contentType("application/json"))
-                .andDo(print()).andReturn();
+                .andDo(print())
+                .andDo(document("get-by-title"))
+                .andReturn();
         Assert.assertEquals("[" + output + "]", mvcResult.getResponse().getContentAsString());
     }
 
@@ -148,10 +147,12 @@ public class MediaMetadataApplicationTest {
         mockMvc.perform(post("/movie")
                 .content(input)
                 .contentType("application/json"));
-        MvcResult mvcResult = mockMvc.perform(get("/media/e407def8-395e-4590-8984-6af13a6a5c8f")
+        mockMvc.perform(get("/media/{id}",
+                        "e407def8-395e-4590-8984-6af13a6a5c8f")
                         .contentType("application/json"))
-                .andDo(print()).andReturn();
-        Assert.assertEquals(output, mvcResult.getResponse().getContentAsString());
+                .andDo(print())
+                .andDo(document("get-by-id"))
+                .andExpect(MockMvcResultMatchers.content().json(output));
     }
 
     /**
@@ -167,7 +168,9 @@ public class MediaMetadataApplicationTest {
                 .contentType("application/json"));
         MvcResult mvcResult = mockMvc.perform(get("/media/movies")
                         .contentType("application/json"))
-                .andDo(print()).andReturn();
+                .andDo(print())
+                .andDo(document("get-movie"))
+                .andReturn();
         Assert.assertEquals("[" + output + "]", mvcResult.getResponse().getContentAsString());
     }
 
@@ -184,7 +187,9 @@ public class MediaMetadataApplicationTest {
                 .contentType("application/json"));
         MvcResult mvcResult = mockMvc.perform(get("/media/series")
                         .contentType("application/json"))
-                .andDo(print()).andReturn();
+                .andDo(print())
+                .andDo(document("get-series"))
+                .andReturn();
         Assert.assertEquals("[" + output + "]", mvcResult.getResponse().getContentAsString());
     }
 
@@ -223,7 +228,7 @@ public class MediaMetadataApplicationTest {
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.content().json(output))
-                .andDo(document("post-movie",
+                .andDo(document("post-series",
                         responseFields(
                                 fieldWithPath("id").description("The UUID of Series object."),
                                 fieldWithPath("title").description("The Series title."),
@@ -237,7 +242,7 @@ public class MediaMetadataApplicationTest {
      * @throws Exception
      */
     @Test
-    public void testFindCommon() throws Exception {
+    public void testGetCommon() throws Exception {
         setUp(MediaType.MOVIE);
         mockMvc.perform(post("/movie")
                 .content(input)
@@ -249,11 +254,24 @@ public class MediaMetadataApplicationTest {
                 .content(input)
                 .contentType("application/json"));
         MvcResult mvcResult = this.mockMvc.perform(
-                        get("/media/related/e407def8-395e-4590-8984-6af13a6a5c8f")
+                        get("/media/related/{id}",
+                                "e407def8-395e-4590-8984-6af13a6a5c8f")
                                 .contentType("application/json"))
                 .andDo(print())
+                .andDo(document("get-common"))
                 .andReturn();
         Assert.assertEquals(combinedOutput, mvcResult.getResponse().getContentAsString());
     }
 
+    @Test
+    public void testDelete() throws Exception {
+        setUp(MediaType.MOVIE);
+        mockMvc.perform(post("/movie")
+                .content(input)
+                .contentType("application/json"));
+        mockMvc.perform(delete("/media/{id}",
+                        "e407def8-395e-4590-8984-6af13a6a5c8f")
+                        .contentType("application/json"))
+                .andDo(document("delete-media"));
+    }
 }
