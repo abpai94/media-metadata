@@ -33,26 +33,26 @@ public class MediaRepository {
      * Constructor adds a few movies and TV series to the repository to initialize the repository.
      */
     public MediaRepository() {
-        mediaMetadata = Stream.of(
-                        new Movie(UUID.randomUUID(),
-                                "Spider-man",
-                                new ArrayList<>(Arrays.asList("Sci-Fi")),
-                                "Sam Ramy",
-                                new Date()),
-                        new Movie(UUID.randomUUID(),
-                                "Indiana Jones",
-                                new ArrayList<>(Arrays.asList("Adventure")),
-                                "George Lucas",
-                                new Date()),
-                        new Series(UUID.randomUUID(),
-                                "Game of Thrones",
-                                new ArrayList<>(Arrays.asList("Fantasy")),
-                                73),
-                        new Series(UUID.randomUUID(),
-                                "Breaking Bad",
-                                new ArrayList<>(Arrays.asList("Drama", "Tragedy", "Crime")),
-                                62))
-                .collect(Collectors.toList());
+//        mediaMetadata = Stream.of(
+//                        new Movie(UUID.randomUUID(),
+//                                "Spider-man",
+//                                new ArrayList<>(Arrays.asList("Sci-Fi")),
+//                                "Sam Ramy",
+//                                new Date()),
+//                        new Movie(UUID.randomUUID(),
+//                                "Indiana Jones",
+//                                new ArrayList<>(Arrays.asList("Adventure")),
+//                                "George Lucas",
+//                                new Date()),
+//                        new Series(UUID.randomUUID(),
+//                                "Game of Thrones",
+//                                new ArrayList<>(Arrays.asList("Fantasy")),
+//                                73),
+//                        new Series(UUID.randomUUID(),
+//                                "Breaking Bad",
+//                                new ArrayList<>(Arrays.asList("Drama", "Tragedy", "Crime")),
+//                                62))
+//                .collect(Collectors.toList());
     }
 
     /**

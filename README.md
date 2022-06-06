@@ -1,4 +1,6 @@
 # Media Metadata
+Coding task to create a REST API to handle Media JSON data for Movies and TV Series.
+
 
 ## Previous commits in [abpai94/coding-tests](https://github.com/abpai94/coding-tests)
 * [Commit 2dbeeb3](https://github.com/abpai94/coding-tests/commit/241a2cc9f1559ccd6ea19c4f97c9e4ff694c528) Started working on a new company technical challenge to create a REST API for VoD metadata which can use CRUD queries.
