@@ -8,48 +8,63 @@ import mediametadata.model.MediaType;
 import mediametadata.model.Movie;
 import mediametadata.model.Series;
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@SpringBootTest(classes = MediaMetadataApplication.class)
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@SpringBootTest
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets")
-@AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
 public class MediaMetadataApplicationTest {
 
     @Autowired
+    private WebApplicationContext context;
+
     private MockMvc mockMvc;
 
     private MediaRepository mediaRepository = new MediaRepository();
 
-    private ObjectMapper objectMapper = mediaRepository.objectMapper();
+    protected ObjectMapper objectMapper = mediaRepository.objectMapper();
 
-    private String input = "";
+    String input = "";
 
-    private String output = "";
+    String output = "";
 
-    /**
-     * Setting up {@link Movie} and {@link Series} objects.
-     *
-     * @param mediaType MOVIES, SERIES or none.
-     * @throws JsonProcessingException
-     */
+    @BeforeEach
+    public void setUp(WebApplicationContext webApplicationContext,
+                      RestDocumentationContextProvider restDocumentationContextProvider) throws Exception {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .apply(documentationConfiguration(restDocumentationContextProvider))
+                .alwaysDo(document("{method-name}",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
+                .build();
+    }
+
     public void setUp(MediaType mediaType) throws JsonProcessingException {
         switch (mediaType) {
             case MOVIE -> {
@@ -82,27 +97,6 @@ public class MediaMetadataApplicationTest {
     }
 
     /**
-     * Removing {@link Movie} or {@link Series} object from repository.
-     *
-     * @param mediaType MOVIES, SERIES or ALL
-     * @throws Exception
-     */
-    public void cleanUp(MediaType mediaType) throws Exception {
-        switch (mediaType) {
-            case MOVIE -> {
-                mockMvc.perform(delete("/media/e407def8-395e-4590-8984-6af13a6a5c8f"));
-            }
-            case SERIES -> {
-                mockMvc.perform(delete("/media/e307def8-395e-4590-8984-6af13a6a5c8f"));
-            }
-            case ALL -> {
-                mockMvc.perform(delete("/media/e407def8-395e-4590-8984-6af13a6a5c8f"));
-                mockMvc.perform(delete("/media/e307def8-395e-4590-8984-6af13a6a5c8f"));
-            }
-        }
-    }
-
-    /**
      * Gets all the {@link Media} objects in repository.
      *
      * @throws Exception
@@ -110,20 +104,20 @@ public class MediaMetadataApplicationTest {
     @Test
     public void testGetAll() throws Exception {
         setUp(MediaType.MOVIE);
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/movie")
                 .content(input)
                 .contentType("application/json"));
         String combinedOutput = "[" + output + ",";
         setUp(MediaType.SERIES);
         combinedOutput += output + "]";
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/series")
                 .content(input)
                 .contentType("application/json"));
         MvcResult mvcResult = mockMvc.perform(get("/media")
                         .contentType("application/json"))
-                .andDo(print()).andReturn();
+                .andDo(print())
+                .andReturn();
         Assert.assertEquals(combinedOutput, mvcResult.getResponse().getContentAsString());
-        cleanUp(MediaType.ALL);
     }
 
     /**
@@ -134,14 +128,13 @@ public class MediaMetadataApplicationTest {
     @Test
     public void testGetByTitle() throws Exception {
         setUp(MediaType.MOVIE);
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/movie")
                 .content(input)
                 .contentType("application/json"));
         MvcResult mvcResult = mockMvc.perform(get("/media?title=Spiderman")
                         .contentType("application/json"))
                 .andDo(print()).andReturn();
         Assert.assertEquals("[" + output + "]", mvcResult.getResponse().getContentAsString());
-        cleanUp(MediaType.MOVIE);
     }
 
     /**
@@ -152,14 +145,13 @@ public class MediaMetadataApplicationTest {
     @Test
     public void testGetById() throws Exception {
         setUp(MediaType.MOVIE);
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/movie")
                 .content(input)
                 .contentType("application/json"));
         MvcResult mvcResult = mockMvc.perform(get("/media/e407def8-395e-4590-8984-6af13a6a5c8f")
                         .contentType("application/json"))
                 .andDo(print()).andReturn();
         Assert.assertEquals(output, mvcResult.getResponse().getContentAsString());
-        cleanUp(MediaType.MOVIE);
     }
 
     /**
@@ -170,14 +162,13 @@ public class MediaMetadataApplicationTest {
     @Test
     public void testGetMovie() throws Exception {
         setUp(MediaType.MOVIE);
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/movie")
                 .content(input)
                 .contentType("application/json"));
         MvcResult mvcResult = mockMvc.perform(get("/media/movies")
                         .contentType("application/json"))
                 .andDo(print()).andReturn();
         Assert.assertEquals("[" + output + "]", mvcResult.getResponse().getContentAsString());
-        cleanUp(MediaType.MOVIE);
     }
 
     /**
@@ -188,14 +179,13 @@ public class MediaMetadataApplicationTest {
     @Test
     public void testGetSeries() throws Exception {
         setUp(MediaType.SERIES);
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/series")
                 .content(input)
                 .contentType("application/json"));
         MvcResult mvcResult = mockMvc.perform(get("/media/series")
                         .contentType("application/json"))
                 .andDo(print()).andReturn();
         Assert.assertEquals("[" + output + "]", mvcResult.getResponse().getContentAsString());
-        cleanUp(MediaType.SERIES);
     }
 
     /**
@@ -206,12 +196,18 @@ public class MediaMetadataApplicationTest {
     @Test
     public void testPostMovie() throws Exception {
         setUp(MediaType.MOVIE);
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/movie")
                         .content(input)
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.content().json(output));
-        cleanUp(MediaType.MOVIE);
+                .andExpect(MockMvcResultMatchers.content().json(output))
+                .andDo(document("post-movie",
+                        responseFields(
+                                fieldWithPath("id").description("The UUID of Movie object."),
+                                fieldWithPath("title").description("The Movie title."),
+                                fieldWithPath("labels").description("Genre labels for Movie."),
+                                fieldWithPath("director").description("Director of Movie."),
+                                fieldWithPath("releaseDate").description("Year of release for the Movie"))));
     }
 
     /**
@@ -222,12 +218,17 @@ public class MediaMetadataApplicationTest {
     @Test
     public void testPostSeries() throws Exception {
         setUp(MediaType.SERIES);
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/series")
                         .content(input)
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.content().json(output));
-        cleanUp(MediaType.SERIES);
+                .andExpect(MockMvcResultMatchers.content().json(output))
+                .andDo(document("post-movie",
+                        responseFields(
+                                fieldWithPath("id").description("The UUID of Series object."),
+                                fieldWithPath("title").description("The Series title."),
+                                fieldWithPath("labels").description("Genre labels for Series."),
+                                fieldWithPath("numberOfEpisodes").description("Number of release episodes of the Series."))));
     }
 
     /**
@@ -238,13 +239,13 @@ public class MediaMetadataApplicationTest {
     @Test
     public void testFindCommon() throws Exception {
         setUp(MediaType.MOVIE);
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/movie")
                 .content(input)
                 .contentType("application/json"));
         String combinedOutput = "[" + output + ",";
         setUp(MediaType.SERIES);
         combinedOutput += output + "]";
-        mockMvc.perform(post("/media")
+        mockMvc.perform(post("/series")
                 .content(input)
                 .contentType("application/json"));
         MvcResult mvcResult = this.mockMvc.perform(
@@ -253,7 +254,6 @@ public class MediaMetadataApplicationTest {
                 .andDo(print())
                 .andReturn();
         Assert.assertEquals(combinedOutput, mvcResult.getResponse().getContentAsString());
-        cleanUp(MediaType.ALL);
     }
 
 }

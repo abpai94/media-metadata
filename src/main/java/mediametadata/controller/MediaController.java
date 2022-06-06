@@ -115,14 +115,25 @@ public class MediaController {
     }
 
     /**
-     * Create a new {@link Media}.
+     * Create a new {@link Movie}.
      *
-     * @param media JSON string from HTTP data.
+     * @param movie JSON string from HTTP data.
+     * @return {@link Movie} object after serializing.
+     */
+    @PostMapping("/movie")
+    Media addMovie(@RequestBody String movie) {
+        return mediaRepository.addMedia(movie);
+    }
+
+    /**
+     * Create a new {@link Series}.
+     *
+     * @param series JSON string from HTTP data.
      * @return {@link Media} object after serializing.
      */
-    @PostMapping("/media")
-    Media addMedia(@RequestBody String media) {
-        return mediaRepository.addMedia(media);
+    @PostMapping("/series")
+    Media addSeries(@RequestBody String series) {
+        return mediaRepository.addMedia(series);
     }
 
     /**
