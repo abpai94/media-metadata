@@ -7,6 +7,8 @@ import mediametadata.model.Media;
 import mediametadata.model.MediaType;
 import mediametadata.model.Movie;
 import mediametadata.model.Series;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,24 +18,31 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.UUID;
+import java.io.StringReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
+import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
@@ -61,7 +70,7 @@ public class MediaMetadataApplicationTest {
                 .build();
     }
 
-    public void setUp(MediaType mediaType) throws JsonProcessingException {
+    public void setUp(MediaType mediaType) throws JsonProcessingException, ParseException {
         switch (mediaType) {
             case MOVIE -> {
                 input = "{\r\n    \"id\": \"e407def8-395e-4590-8984-6af13a6a5c8f\"," +
@@ -185,6 +194,8 @@ public class MediaMetadataApplicationTest {
         mockMvc.perform(post("/series")
                 .content(input)
                 .contentType("application/json"));
+        List<Media> mediaList = new ArrayList<>();
+        mediaList.add(objectMapper.readValue(new StringReader(output), Media.class));
         MvcResult mvcResult = mockMvc.perform(get("/media/series")
                         .contentType("application/json"))
                 .andDo(print())
@@ -247,20 +258,29 @@ public class MediaMetadataApplicationTest {
         mockMvc.perform(post("/movie")
                 .content(input)
                 .contentType("application/json"));
-        String combinedOutput = "[" + output + ",";
+        List<Media> mediaList = new ArrayList<>();
+        mediaList.add(objectMapper.readValue(new StringReader(output), Media.class));
         setUp(MediaType.SERIES);
-        combinedOutput += output + "]";
+        mediaList.add(objectMapper.readValue(new StringReader(output), Media.class));
         mockMvc.perform(post("/series")
                 .content(input)
                 .contentType("application/json"));
-        MvcResult mvcResult = this.mockMvc.perform(
+        this.mockMvc.perform(
                         get("/media/related/{id}",
                                 "e407def8-395e-4590-8984-6af13a6a5c8f")
                                 .contentType("application/json"))
-                .andDo(print())
                 .andDo(document("get-common"))
+                .andExpectAll(jsonPath("$[0].id", containsString("e407def8-395e-4590-8984-6af13a6a5c8f")),
+                        jsonPath("$[0].title", containsString("Spiderman")),
+                        jsonPath("$[0].labels", isA(List.class)),
+                        jsonPath("$[0].director", containsString("Sam Ramy")),
+                        jsonPath("$[0].releaseDate", containsString("2002")))
+                .andExpectAll(jsonPath("$[1].id", containsString("e307def8-395e-4590-8984-6af13a6a5c8f")),
+                        jsonPath("$[1].title", containsString("Daredevil")),
+                        jsonPath("$[1].labels", isA(List.class)),
+                        jsonPath("$[1].numberOfEpisodes", comparesEqualTo(30)))
+//                        pathParameters(parameterWithName("{id}").description("UUID of media object"))))
                 .andReturn();
-        Assert.assertEquals(combinedOutput, mvcResult.getResponse().getContentAsString());
     }
 
     @Test
