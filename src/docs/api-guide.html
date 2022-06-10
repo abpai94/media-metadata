@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<title>Links</title>
+<title>POST request to /movie</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,8 +440,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 </div>
 <div id="content">
-<div class="sect3">
-<h4 id="_links">Links</h4>
+<div class="sect1">
+<h2 id="_post_request_to_movie">POST request to /movie</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">POST /movie HTTP/1.1
@@ -501,6 +502,11 @@ Host: localhost:8080
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_post_request_to_series">POST request to /series</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">POST /series HTTP/1.1
@@ -554,6 +560,11 @@ Host: localhost:8080
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_get_request_to_media">GET request to /media</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">GET /media HTTP/1.1
@@ -561,6 +572,8 @@ Content-Type: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_example_response">Example Response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>[ {
@@ -577,6 +590,12 @@ Host: localhost:8080</code></pre>
 } ]</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_get_request_to_mediamovie">GET request to /media/movie</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">GET /media/movies HTTP/1.1
@@ -584,6 +603,8 @@ Content-Type: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_example_response_2">Example Response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>[ {
@@ -595,6 +616,12 @@ Host: localhost:8080</code></pre>
 } ]</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_get_request_to_mediaseries">GET request to /media/series</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">GET /media/series HTTP/1.1
@@ -602,6 +629,8 @@ Content-Type: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_example_response_3">Example Response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>[ {
@@ -612,6 +641,12 @@ Host: localhost:8080</code></pre>
 } ]</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_get_request_to_mediarelatedid">GET request to /media/related/{id}</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">GET /media/related/e407def8-395e-4590-8984-6af13a6a5c8f HTTP/1.1
@@ -619,6 +654,8 @@ Content-Type: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_example_response_4">Example Response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>[ {
@@ -635,6 +672,12 @@ Host: localhost:8080</code></pre>
 } ]</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_get_request_to_mediaid">GET request to /media/{id}</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">GET /media/e407def8-395e-4590-8984-6af13a6a5c8f HTTP/1.1
@@ -642,6 +685,8 @@ Content-Type: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_example_response_5">Example Response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>{
@@ -653,6 +698,12 @@ Host: localhost:8080</code></pre>
 }</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_get_request_to_mediatitlevalue">GET request to /media/?title={value}</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">GET /media?title=Spiderman HTTP/1.1
@@ -660,6 +711,8 @@ Content-Type: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_example_response_6">Example Response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code>[ {
@@ -671,6 +724,12 @@ Host: localhost:8080</code></pre>
 } ]</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_delete_request_to_mediaid">DELETE request to /media/{id}</h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight nowrap"><code data-lang="http">DELETE /media/e407def8-395e-4590-8984-6af13a6a5c8f HTTP/1.1
@@ -680,9 +739,10 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-10 17:41:49 +0200
+Last updated 2022-06-10 18:44:08 +0200
 </div>
 </div>
 </body>

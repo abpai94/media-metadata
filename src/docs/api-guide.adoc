@@ -21,7 +21,7 @@ include::{snippets}/get-series/http-request.adoc[]
 ==== Example Response
 include::{snippets}/get-series/response-body.adoc[]
 
-== GET request to /media/movie
+== GET request to /media/related/{id}
 include::{snippets}/get-common/http-request.adoc[]
 ==== Example Response
 include::{snippets}/get-common/response-body.adoc[]
