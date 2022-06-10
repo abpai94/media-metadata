@@ -1,29 +1,40 @@
-==== Links
-
+== POST request to /movie
 include::{snippets}/post-movie/http-request.adoc[]
-//include::{snippets}/post-movie/response-body.adoc[]
 include::{snippets}/post-movie/response-fields.adoc[]
 
+== POST request to /series
 include::{snippets}/post-series/http-request.adoc[]
-//include::{snippets}/post-series/response-body.adoc[]
 include::{snippets}/post-series/response-fields.adoc[]
 
+== GET request to /media
 include::{snippets}/get-all/http-request.adoc[]
+==== Example Response
 include::{snippets}/get-all/response-body.adoc[]
 
+== GET request to /media/movie
 include::{snippets}/get-movie/http-request.adoc[]
+==== Example Response
 include::{snippets}/get-movie/response-body.adoc[]
 
+== GET request to /media/series
 include::{snippets}/get-series/http-request.adoc[]
+==== Example Response
 include::{snippets}/get-series/response-body.adoc[]
 
+== GET request to /media/movie
 include::{snippets}/get-common/http-request.adoc[]
+==== Example Response
 include::{snippets}/get-common/response-body.adoc[]
 
+== GET request to /media/{id}
 include::{snippets}/get-by-id/http-request.adoc[]
+==== Example Response
 include::{snippets}/get-by-id/response-body.adoc[]
 
+== GET request to /media/?title={value}
 include::{snippets}/get-by-title/http-request.adoc[]
+==== Example Response
 include::{snippets}/get-by-title/response-body.adoc[]
 
+== DELETE request to /media/{id}
 include::{snippets}/delete-media/http-request.adoc[]
