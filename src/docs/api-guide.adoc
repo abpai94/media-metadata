@@ -1,11 +1,11 @@
 ==== Links
 
 include::{snippets}/post-movie/http-request.adoc[]
-include::{snippets}/post-movie/response-body.adoc[]
+//include::{snippets}/post-movie/response-body.adoc[]
 include::{snippets}/post-movie/response-fields.adoc[]
 
 include::{snippets}/post-series/http-request.adoc[]
-include::{snippets}/post-series/response-body.adoc[]
+//include::{snippets}/post-series/response-body.adoc[]
 include::{snippets}/post-series/response-fields.adoc[]
 
 include::{snippets}/get-all/http-request.adoc[]
@@ -27,4 +27,3 @@ include::{snippets}/get-by-title/http-request.adoc[]
 include::{snippets}/get-by-title/response-body.adoc[]
 
 include::{snippets}/delete-media/http-request.adoc[]
-include::{snippets}/delete-media/response-body.adoc[]

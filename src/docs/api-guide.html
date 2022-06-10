@@ -460,11 +460,6 @@ Host: localhost:8080
 }</code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;id&quot;:&quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Spiderman&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;director&quot;:&quot;Sam Ramy&quot;,&quot;releaseDate&quot;:&quot;1970&quot;}</code></pre>
-</div>
-</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -487,7 +482,7 @@ Host: localhost:8080
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The Movie title.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The title.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>labels</code></p></td>
@@ -523,11 +518,6 @@ Host: localhost:8080
 }</code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;id&quot;:&quot;e307def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Daredevil&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;numberOfEpisodes&quot;:30}</code></pre>
-</div>
-</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -550,7 +540,7 @@ Host: localhost:8080
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The Series title.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The title.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>labels</code></p></td>
@@ -573,7 +563,18 @@ Host: localhost:8080</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>[{&quot;id&quot;:&quot;e307def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Daredevil&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;numberOfEpisodes&quot;:30},{&quot;id&quot;:&quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Spiderman&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;director&quot;:&quot;Sam Ramy&quot;,&quot;releaseDate&quot;:&quot;1970&quot;}]</code></pre>
+<pre class="CodeRay highlight nowrap"><code>[ {
+  &quot;id&quot; : &quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,
+  &quot;title&quot; : &quot;Spiderman&quot;,
+  &quot;labels&quot; : [ &quot;Comics&quot; ],
+  &quot;director&quot; : &quot;Sam Ramy&quot;,
+  &quot;releaseDate&quot; : &quot;1970&quot;
+}, {
+  &quot;id&quot; : &quot;e307def8-395e-4590-8984-6af13a6a5c8f&quot;,
+  &quot;title&quot; : &quot;Daredevil&quot;,
+  &quot;labels&quot; : [ &quot;Comics&quot; ],
+  &quot;numberOfEpisodes&quot; : 30
+} ]</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -585,7 +586,13 @@ Host: localhost:8080</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>[{&quot;id&quot;:&quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Spiderman&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;director&quot;:&quot;Sam Ramy&quot;,&quot;releaseDate&quot;:&quot;1970&quot;}]</code></pre>
+<pre class="CodeRay highlight nowrap"><code>[ {
+  &quot;id&quot; : &quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,
+  &quot;title&quot; : &quot;Spiderman&quot;,
+  &quot;labels&quot; : [ &quot;Comics&quot; ],
+  &quot;director&quot; : &quot;Sam Ramy&quot;,
+  &quot;releaseDate&quot; : &quot;1970&quot;
+} ]</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -597,7 +604,12 @@ Host: localhost:8080</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>[{&quot;id&quot;:&quot;e307def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Daredevil&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;numberOfEpisodes&quot;:30}]</code></pre>
+<pre class="CodeRay highlight nowrap"><code>[ {
+  &quot;id&quot; : &quot;e307def8-395e-4590-8984-6af13a6a5c8f&quot;,
+  &quot;title&quot; : &quot;Daredevil&quot;,
+  &quot;labels&quot; : [ &quot;Comics&quot; ],
+  &quot;numberOfEpisodes&quot; : 30
+} ]</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -609,7 +621,18 @@ Host: localhost:8080</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>[{&quot;id&quot;:&quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Spiderman&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;director&quot;:&quot;Sam Ramy&quot;,&quot;releaseDate&quot;:&quot;1970&quot;},{&quot;id&quot;:&quot;e307def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Daredevil&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;numberOfEpisodes&quot;:30}]</code></pre>
+<pre class="CodeRay highlight nowrap"><code>[ {
+  &quot;id&quot; : &quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,
+  &quot;title&quot; : &quot;Spiderman&quot;,
+  &quot;labels&quot; : [ &quot;Comics&quot; ],
+  &quot;director&quot; : &quot;Sam Ramy&quot;,
+  &quot;releaseDate&quot; : &quot;1970&quot;
+}, {
+  &quot;id&quot; : &quot;e307def8-395e-4590-8984-6af13a6a5c8f&quot;,
+  &quot;title&quot; : &quot;Daredevil&quot;,
+  &quot;labels&quot; : [ &quot;Comics&quot; ],
+  &quot;numberOfEpisodes&quot; : 30
+} ]</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -621,7 +644,13 @@ Host: localhost:8080</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>{&quot;id&quot;:&quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Spiderman&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;director&quot;:&quot;Sam Ramy&quot;,&quot;releaseDate&quot;:&quot;1970&quot;}</code></pre>
+<pre class="CodeRay highlight nowrap"><code>{
+  &quot;id&quot; : &quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,
+  &quot;title&quot; : &quot;Spiderman&quot;,
+  &quot;labels&quot; : [ &quot;Comics&quot; ],
+  &quot;director&quot; : &quot;Sam Ramy&quot;,
+  &quot;releaseDate&quot; : &quot;1970&quot;
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -633,7 +662,13 @@ Host: localhost:8080</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight nowrap"><code>[{&quot;id&quot;:&quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,&quot;title&quot;:&quot;Spiderman&quot;,&quot;labels&quot;:[&quot;Comics&quot;],&quot;director&quot;:&quot;Sam Ramy&quot;,&quot;releaseDate&quot;:&quot;1970&quot;}]</code></pre>
+<pre class="CodeRay highlight nowrap"><code>[ {
+  &quot;id&quot; : &quot;e407def8-395e-4590-8984-6af13a6a5c8f&quot;,
+  &quot;title&quot; : &quot;Spiderman&quot;,
+  &quot;labels&quot; : [ &quot;Comics&quot; ],
+  &quot;director&quot; : &quot;Sam Ramy&quot;,
+  &quot;releaseDate&quot; : &quot;1970&quot;
+} ]</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -643,16 +678,11 @@ Content-Type: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight nowrap"><code>true</code></pre>
-</div>
-</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-06 18:07:16 +0200
+Last updated 2022-06-10 17:41:49 +0200
 </div>
 </div>
 </body>

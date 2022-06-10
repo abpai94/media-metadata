@@ -22,15 +22,22 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.StringReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isA;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -57,7 +64,9 @@ public class MediaMetadataApplicationTest {
     public void setUp(WebApplicationContext webApplicationContext,
                       RestDocumentationContextProvider restDocumentationContextProvider) throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentationContextProvider))
+                .apply(documentationConfiguration(restDocumentationContextProvider)
+                        .operationPreprocessors()
+                        .withResponseDefaults(prettyPrint()))
                 .build();
     }
 
@@ -76,9 +85,6 @@ public class MediaMetadataApplicationTest {
                                 new ArrayList<>(List.of("Comics")),
                                 "Sam Ramy",
                                 new Date(2002)));
-//                mockMvc.perform(post("/movie")
-//                        .content(input)
-//                        .contentType("application/json"));
             }
             case SERIES -> {
                 input = "{\r\n    \"id\": \"e307def8-395e-4590-8984-6af13a6a5c8f\"," +
@@ -91,9 +97,6 @@ public class MediaMetadataApplicationTest {
                                 "Daredevil",
                                 new ArrayList<>(List.of("Comics")),
                                 30));
-//                mockMvc.perform(post("/series")
-//                        .content(input)
-//                        .contentType("application/json"));
             }
         }
     }
